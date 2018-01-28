@@ -1,0 +1,32 @@
+var socket = io();
+var audioInfoArray = [];
+
+var audioIndexed = {};
+
+initialAudioUrls.forEach(function(url) {
+	var a = new Audio(url);
+  a.play();
+});
+
+socket.on("connection", function() {
+	console.log("connected to server");
+});
+
+socket.on("newAudio", function(audio) {
+	console.log(audio);
+	var a = new Audio(audio.url);
+	
+	if (audioIndexed[audio.index] == undefined) {
+		audioIndexed[audio.index] = [a];
+	} else {
+		audioIndexed[audio.index].push(a);
+	}
+});
+
+socket.on("ready", function() {
+	begin();
+});
+
+
+function begin() {
+}
